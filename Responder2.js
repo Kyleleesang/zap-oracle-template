@@ -27,9 +27,39 @@
 	
 	});
 	
+}     
+
+function BuyToken(TokenName, ZapAmount) { //put in amount of tokens you want to buy
+    var CoinMarketCap = require("node-coinmarketcap"); //instantiate coinmarketcap oracle (do not declare globally)
+    var coinmarketcap = new CoinMarketCap; //instantiate coinmarketcap oracle 
+    var ZapPrice;
+    var TokenPrice;
+    coinmarketcap.get("Zap", coin =>{
+        ZapPrice = coin.price_usd; //set zap price to the price on coinmarketcap
+    });
+        coinmarketcap.get(TokenName, coin =>{
+        TokenPrice = coin.price_usd; //set token price to the price on coinmarketcap
+    });
+    var TokensAwarded = (ZapAmount*ZapPrice)/TokenPrice;
+    console.log("You have bought: " + TokenName + TokensAwarded + " tokens at a price of:" + ZapPrice + " Zap");
+}
+
+function SellToken(TokenName, TokenAmount) { //put in the amount of tokens you want to sell
+    var CoinMarketCap = require("node-coinmarketcap");  //instantiate coinmarketcap oracle (do not declare globally
+    var coinmarketcap = new CoinMarketCap; //instantiate coinmarketcap oracle
+    var ZapPrice;
+    var TokenPrice;
+    coinmarketcap.get("Zap", coin =>{
+        ZapPrice = coin.price_usd; //set zap price to the price on coinmarketcap
+    });
+     coinmarketcap.get(TokenName, coin =>{
+        TokenPrice = coin.price_usd; //set token price to the price on coinmarketcap
+    });
+     var ZapAwarded = (amount*TokenPrice) / ZapPrice; // set the zap you get back equal to the token amount x the usd price divided by zap price
+    console.log("You have sold: " + TokenName + TokenAmount + "tokens at a price of:" + TokenPrice + " Zap and received:" + ZapAwarded + " Zap");
 }
 module.exports = {
 	getResponse:getResponse
 }
-console.log("the program ran");
+console.log("the program is running");
 getResponse("a string",["Lisk","stringy","stringify"]);
