@@ -29,17 +29,15 @@ async function getResponse(query,params){
     var coinmarketcap = new CoinMarketCap; //instantiate coinmarketcap oracle 
      var ZapPrice = coinmarketcap.get("Zap", coin => 
          ZapPrice = parseFloat(coin.price_usd)
-        
     );
       var TokenPrice = coinmarketcap.get(TokenName, coin => 
            //set token price to the price on coinmarketcap
         TokenPrice = parseFloat(coin.price_usd)
-        
     );
     console.log(Zapamount);
     console.log(ZapPrice);
     console.log(TokenPrice);
-    var TokensAwarded = (Zapamount)*(ZapPrice) / (TokenPrice);
+    var TokensAwarded = (Zapamount)*parseFloat(ZapPrice) / parseFloat(TokenPrice);
 console.log("You have bought: " + TokensAwarded + " " + TokenName + " tokens at a price of: " + ZapPrice + " Zap");
     
 }
