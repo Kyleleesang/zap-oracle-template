@@ -23,17 +23,48 @@ async function getResponse(query,params){
 	});
 }  
 
- async function BuyToken(TokenName, ZapAmount) { //put in amount of tokens you want to buy
+async function BuyToken(TokenName, ZapAmount) { //put in amount of tokens you want to buy
+    var Zapamount = parseFloat(ZapAmount);
+    var CoinMarketCap = require("node-coinmarketcap"); //instantiate coinmarketcap oracle (do not declare globally)
+    var coinmarketcap = new CoinMarketCap; //instantiate coinmarketcap oracle
+    let ZapPrice;
+      coinmarketcap.get("Zap", coin => {
+         ZapPrice = parseFloat(coin.price_usd)
+         console.log("zapprice running");
+ 
+     });
+       coinmarketcap.get(TokenName, coin => {
+           //set token price to the price on coinmarketcap
+        let TokenPrice = parseFloat(coin.price_usd)
+        console.log("tokenprice running");
+        console.log("end statemenst of function running");
+    console.log(Zapamount);
+    console.log(ZapPrice);
+    console.log(TokenPrice);
+    var TokensAwarded = (Zapamount)*parseFloat(ZapPrice) / parseFloat(TokenPrice);
+ console.log("You have bought: " + TokensAwarded + " " + TokenName + " tokens at a price of: " + ZapPrice + " Zap");
+ 
+      });
+ 
+ 
+ }
+//Original Buy Token Function
+ async function BuyTokenOriginal(TokenName, ZapAmount) { //put in amount of tokens you want to buy
     var Zapamount = parseFloat(ZapAmount);
     var CoinMarketCap = require("node-coinmarketcap"); //instantiate coinmarketcap oracle (do not declare globally)
     var coinmarketcap = new CoinMarketCap; //instantiate coinmarketcap oracle 
-     var ZapPrice = coinmarketcap.get("Zap", coin => 
-         ZapPrice = parseFloat(coin.price_usd)
-    );
-      var TokenPrice = coinmarketcap.get(TokenName, coin => 
+     let ZapPrice;
+      coinmarketcap.get("Zap", coin =>{
+          //set Zap Price to the price on coinmarketcap
+         ZapPrice = parseFloat(coin.price_usd);
+         return ZapPrice;
+      });
+      var TokenPrice;
+      coinmarketcap.get(TokenName, coin =>{
            //set token price to the price on coinmarketcap
-        TokenPrice = parseFloat(coin.price_usd)
-    );
+         let TokenPrice = parseFloat(coin.price_usd);
+        return TokenPrice;
+      });
     console.log(Zapamount);
     console.log(ZapPrice);
     console.log(TokenPrice);
@@ -49,9 +80,11 @@ function SellToken(TokenName, TokenAmount) { //put in the amount of tokens you w
     var TokenPrice;
     coinmarketcap.get("Zap", coin =>{
         ZapPrice = coin.price_usd; //set zap price to the price on coinmarketcap
+        return ZapPrice;
     });
      coinmarketcap.get(TokenName, coin =>{
         TokenPrice = coin.price_usd; //set token price to the price on coinmarketcap
+        return TokenPrice;
     });
      var ZapAwarded = (amount*TokenPrice) / ZapPrice; // set the zap you get back equal to the token amount x the usd price divided by zap price
     console.log("You have sold: " + TokenAmount  + TokenName + "tokens at a price of:" + TokenPrice + " Zap and received:" + ZapAwarded + " Zap");
@@ -60,6 +93,7 @@ module.exports = {
 	getResponse:getResponse
 }
 console.log("the program is running");
+prompt("What would you like to do?");
 BuyToken("Bitcoin", 65000);
 
 getResponse("a string",["Lisk","stringy","stringify"]);
