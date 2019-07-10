@@ -93,8 +93,6 @@ module.exports = {
 	getResponse:getResponse
 }
 console.log("the program is running");
-prompt("What would you like to do?");
 BuyToken("Bitcoin", 65000);
 
 getResponse("a string",["Lisk","stringy","stringify"]);
- 
