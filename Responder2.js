@@ -28,14 +28,12 @@ async function BuyToken(TokenName, ZapAmount) { //put in amount of tokens you wa
     var CoinMarketCap = require("node-coinmarketcap"); //instantiate coinmarketcap oracle (do not declare globally)
     var coinmarketcap = new CoinMarketCap; //instantiate coinmarketcap oracle
     let ZapPrice;
-      coinmarketcap.get("Zap", coin => {
+    coinmarketcap.get("Zap", coin => {
          ZapPrice = parseFloat(coin.price_usd)
          console.log("zapprice running");
- 
-     });
-       coinmarketcap.get(TokenName, coin => {
+       coinmarketcap.get(TokenName, coin2 => {
            //set token price to the price on coinmarketcap
-        let TokenPrice = parseFloat(coin.price_usd)
+        let TokenPrice = parseFloat(coin2.price_usd)
         console.log("tokenprice running");
         console.log("end statemenst of function running");
     console.log(Zapamount);
@@ -44,7 +42,7 @@ async function BuyToken(TokenName, ZapAmount) { //put in amount of tokens you wa
     var TokensAwarded = (Zapamount)*parseFloat(ZapPrice) / parseFloat(TokenPrice);
  console.log("You have bought: " + TokensAwarded + " " + TokenName + " tokens at a price of: " + ZapPrice + " Zap");
  
-      });
+      })});
  
  
  }
@@ -63,6 +61,7 @@ async function BuyToken(TokenName, ZapAmount) { //put in amount of tokens you wa
       coinmarketcap.get(TokenName, coin =>{
            //set token price to the price on coinmarketcap
          let TokenPrice = parseFloat(coin.price_usd);
+         console.log(coin.price_eth);
         return TokenPrice;
       });
     console.log(Zapamount);
@@ -96,3 +95,4 @@ console.log("the program is running");
 BuyToken("Bitcoin", 65000);
 
 getResponse("a string",["Lisk","stringy","stringify"]);
+ 
